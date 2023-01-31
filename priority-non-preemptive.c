@@ -90,8 +90,7 @@ void times(){
         time+=p[i].turnaround_time;
     time=time/n;
     printf("\naverage turnaround time : %f",time);
-    //computing average turnaround time
-    
+    //computing average turnaround time    
 }
 
 void gant(){
