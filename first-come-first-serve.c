@@ -33,7 +33,6 @@ void fcfs(){
             p[i].waiting_time = p[i].turnaround_time - p[i].burst_time;
         }
         //computing completion, waiting and turnaround time for the rest of the process
-    
 }
 
 void times(){
@@ -50,7 +49,6 @@ void times(){
     time=time/n;
     printf("\naverage turnaround time : %f",time);
     //computing average turnaround time
-    
 }
 
 void gant(){
@@ -61,7 +59,6 @@ void gant(){
     for(int i=0; i<n; i++)
         printf("\t%d",p[i].completion_time);
     //printing gant chart
-    
 }
 
 void table(){
@@ -89,5 +86,4 @@ int main(){
     gant();
     times();
     //prints table, gant chart and metrics
-    
 }
