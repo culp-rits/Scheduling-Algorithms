@@ -1,21 +1,26 @@
 #include <stdio.h>
+//header file
 
 struct process{
     int id, index, arrival_time, burst_time,completion_time, turnaround_time,waiting_time;
 } p[10],q[10],temp;
+//defining the structure of process
 
 int l=0,m=0,n,total_time=0,g[100],time_quantum;
+//delaring the number of processes, iterators, etc.
 
 void enq(){
     q[m] = temp;
     m++;
 }
+//enqueue new process
 
 void deq(){
     for(int i=1; i<m; i++)
         q[i-1]=q[i];
     m--;
 }
+//dequeue the finished process
 
 void rr(){
     for (int i=0; i<n; i++)
@@ -30,6 +35,8 @@ void rr(){
                 p[i].index = x;
                 p[j].index = y;
             }
+    //marking the index values
+    
     int anchor = 0, rem = time_quantum;
     for(int i=0;i<total_time;i++){
         while(i==p[anchor].arrival_time){
@@ -37,27 +44,36 @@ void rr(){
             enq();
             anchor++;
         }
+        //checking if any process arrives
+        
         if(rem==0){
                 rem=time_quantum;
                 temp = q[0];
                 deq();
                 enq();
                 printf("\n");
-            }        
+            }  
+        //refreshing the ready queue since time quantum is expired
+        
         rem--;
         q[0].burst_time--;
         g[l] = q[0].id;
         l++;
+        //updating gant chart and process taking place
+        
         if(q[0].burst_time==0){
             p[q[0].index].completion_time = i+1;
             deq();
             rem=time_quantum;
         }
+        //checking if any process has been completed
+        
     }
     for (int i = 0; i < n; i++){
         p[i].turnaround_time = p[i].completion_time - p[i].arrival_time;
         p[i].waiting_time = p[i].turnaround_time - p[i].burst_time;
     }
+    //computing turnaround and waiting time
 }
 
 void times(){
@@ -66,11 +82,14 @@ void times(){
         time+=p[i].waiting_time;
     time=time/n;
     printf("\naverage waiting time : %f",time);
+    //computing average waiting time
+    
     time=0;
     for(int i=0; i<n; i++)
         time+=p[i].turnaround_time;
     time=time/n;
     printf("\naverage turnaround time : %f",time);
+    //computing average turnaround time
 }
 
 void gant(){
@@ -80,12 +99,14 @@ void gant(){
     printf("\n");
     for(int i=0; i<total_time+1; i++)
         printf("%d\t",i);
+    //printing gant chart
 }
 
 void table(){
     printf("\n");
     for(int i=0;i<n;i++)
         printf("P%d\t%d\t%d\t%d\t%d\t%d\n",p[i].id,p[i].arrival_time,p[i].burst_time,p[i].completion_time,p[i].turnaround_time,p[i].waiting_time);
+    //printing the completed table
 }
 
 int main(){
@@ -103,8 +124,11 @@ int main(){
         p[i].index = i;
         total_time += p[i].burst_time;
     }
+    //input for all process
+    
     rr();
     table();
     gant();
     times();    
+    //prints table, gant chart and metrics
 }
